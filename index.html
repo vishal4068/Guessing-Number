@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GuessNumber</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="main">
+        <h2 style="font-size: 70px; letter-spacing: 2px; line-height: 60px; margin-bottom: 20px;">Guessing Game</h2>
+        <p id="desc">Enter a number between 1 and 100 and try to guess the computer-generated number.</p>
+        <form onsubmit="return false;">
+            <h3>Enter Number</h3>
+            <input type="number" min="0" max="100" id="userinput"><br>
+            <button type="button" class="btn btn-info" onclick="guess()" id="btn">Check</button>
+        </form>
+
+        <div id="answer"></div>
+    </div>
+    <script>
+        // Get the input field
+        var input = document.getElementById("userinput");
+
+        // Execute a function when the user presses a key on the keyboard
+        input.addEventListener("keypress", function (event) {
+            // If the user presses the "Enter" key on the keyboard
+            if (event.key === "Enter") {
+                // Cancel the default action, if needed
+                event.preventDefault();
+                // Trigger the button element with a click
+                document.getElementById("btn").click();
+            }
+        });
+        var number = Math.round(Math.random() * 100);
+        //console.log(number)
+        var btn = document.getElementById("btn")
+        var count = 0
+        function guess() {
+            var userguess = document.getElementById("userinput").value;
+
+            console.log(userguess)
+            if (userguess < number) {
+                let para = document.createElement("p")
+                para.innerText = `Oops!! Number ${userguess} is smaller. Please guess again!`
+                document.getElementById("answer").appendChild(para).style.color = "red"
+                count++
+                document.getElementById("userinput").value = "";
+                document.getElementById("userinput").focus();
+                // console.log("Smaller")
+            } else if (userguess > number) {
+                let para = document.createElement("p")
+                para.innerText = `Oops!! Number ${userguess} is greater. Please guess again!`
+                document.getElementById("answer").appendChild(para).style.color = "red"
+                count++
+                document.getElementById("userinput").value = "";
+                document.getElementById("userinput").focus();
+                //console.log("greater")
+            } else {
+                let result = 100 - count
+                document.getElementById("answer").innerHTML = ""
+                let para = document.createElement("p")
+                para.innerHTML = `<p><span style=font-size:20px; font-weight: bold;>Congratulations!!!</span> The number was ${number} and you guessed it right. Your final score is <span style=font-size:20px;>${result}%</span>.</p>`
+                document.getElementById("answer").appendChild(para).style.color = "green"
+                //console.log("congrates")
+
+                let restart = document.createElement("button")
+                restart.id = "restart"
+                restart.innerText = "Restart"
+                document.getElementById("answer").appendChild(restart)
+                document.getElementById("restart").addEventListener("click", reload)
+            }
+
+
+            function reload() {
+                location.reload()
+            }
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
